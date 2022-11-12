@@ -16,9 +16,12 @@ struct MomentList: View {
     
     var body: some View {
         ScrollView {
+            /// 跟 VStack 功能类似，不过不会一次性全部把 view 加载出来，会随着滚动陆续加载出来
+            /// https://juejin.cn/post/6891936267248877581
             LazyVStack(spacing: 0) {
                 Header()
                     // 将 Header 的底部坐标变化传递给上层，用于导航栏变化
+                    // TODO: anchorPreference??
                     .anchorPreference(key: MomentHome.NavigationKey.self, value: .bottom) { [$0] }
                 
                 ForEach(self.moments) { moment in
@@ -29,7 +32,7 @@ struct MomentList: View {
                 }
             }
             .background(Color("cell"))
-            
+            // 底部刷新控件
             RefreshFooter(refreshing: $footerRefreshing, action: loadMore) {
                 Text(noMore ? "没有更多了" : "加载中...")
                     .font(.system(size: 14, weight: .semibold))
@@ -50,6 +53,7 @@ struct MomentList: View {
     }
     
     func loadMore() {
+        // TODO: 这里的作用？？？？
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.moments.append(contentsOf: Moment.page2)
             self.footerRefreshing = false
@@ -79,13 +83,17 @@ struct MomentList: View {
                         .foregroundColor(.white)
                         .font(.system(size: 20, weight: .bold))
                         .shadow(radius: 2)
+                        // 对齐方式，再细化
                         .alignmentGuide(VerticalAlignment.center) { d in 20 }
+//                        .alignmentGuide(HorizontalAlignment.center, computeValue: { d in -100 })
                     
                     Image(member.icon)
                         .resizable()
                         .cornerRadius(6)
                         .frame(width: 70, height: 70)
                         .padding(.trailing, 12)
+                    // .frame(width: 70, height: 70) 放前面和放后面效果还不一样。。。
+//                        .frame(width: 70, height: 70)
                 }
             }
         }

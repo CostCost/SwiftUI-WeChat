@@ -13,6 +13,7 @@ struct ChatView: View {
     let chat: Chat
     
     var body: some View {
+        // 这里通过监听动态调整发送栏的高度
         GeometryReader { proxy in
             VStack(spacing: 0) {
                 Separator(color: Color("navigation_separator"))

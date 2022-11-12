@@ -13,6 +13,8 @@ struct MomentRow: View {
     let moment: Moment
     
     var body: some View {
+        // alignment: .top, 指定内部的堆砌方式
+        // , spacing: 12 用来指定元素之间的间隔
         HStack(alignment: .top, spacing: 12) {
             Avatar(icon: moment.author.icon)
             
@@ -105,6 +107,7 @@ struct MomentRow: View {
             // 按照最大区域 180x180 等比缩放
             Image(image.url)
                 .resizable()
+                // 不能在加载了图片之后获取大小吗？
                 .aspectRatio(CGSize(width: image.width!, height: image.height!), contentMode: .fit)
                 .frame(maxWidth: 180, maxHeight: 180, alignment: .leading)
         }

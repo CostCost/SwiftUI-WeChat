@@ -12,6 +12,8 @@ struct MomentHome: View {
     @Environment(\.statusBarStyle) var statusBarStyle
     
     var body: some View {
+        /// https://www.jianshu.com/p/eefca96c0737
+        /// GeometryReader 用来获取父布局的布局信息
         GeometryReader { proxy in
             ZStack {
                 VStack {
